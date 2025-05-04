@@ -8,25 +8,23 @@ function VisaCard() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 2000); // Simulate a 2-second loading delay
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // Cleanup the timer
   }, []);
 
   return (
     <div className="site_grid grid_item--4">
       {isLoading
-        ? Array(4)
-            .fill(0)
-            .map((_, index) => (
-              <div className="skeleton-card" key={index}>
-                <div className="skeleton-image"></div>
-                <div className="skeleton-content">
-                  <div className="skeleton-title"></div>
-                  <div className="skeleton-price"></div>
-                </div>
+        ? visaData.map((_, index) => (
+            <div className="skeleton-card" key={index}>
+              <div className="skeleton-image"></div>
+              <div className="skeleton-content">
+                <div className="skeleton-title"></div>
+                <div className="skeleton-price"></div>
               </div>
-            ))
+            </div>
+          ))
         : visaData.map((card) => (
             <div className="grid_item" key={card.id}>
               <Link to={`/visa/${card.slug}`} className="site_flex visa_card">

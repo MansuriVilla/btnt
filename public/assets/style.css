@@ -202,8 +202,8 @@ Hero CSS
 .visa_feature--image{aspect-ratio: 16/9; object-fit: cover; object-position: top center;  overflow: hidden; border-radius: var(--site-radius);}
 
 
-#talk .horizontal {
-  height: 400vh;
+/* #talk .horizontal {
+   height: 500vh; 
 }
 
 #talk .horizontal .talk-main {
@@ -213,7 +213,7 @@ Hero CSS
 }
 
 #talk .horizontal .talk-main .talk-text .container {
-  width: 400%;
+   width: 500%;
   height: 100vh;
   display: flex;
   flex-wrap: nowrap;
@@ -222,10 +222,63 @@ Hero CSS
 
 #talk .horizontal .talk-main .talk-text .container .panel {
   height: 100vh;
-  width: 400%;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  padding: 30px 50px;
+  justify-content: flex-start;
   align-items: center;
-  font-size: 5rem;
   color: #000;
+}
+#talk .horizontal .talk-main .talk-text .container .panel:nth-child(1) {justify-content: center;}
+#talk .horizontal .talk-main .talk-text .container .panel:nth-child(1) h2 {justify-content: center; font-size: clamp(30px, 7vw, 120px);} */
+
+
+#talk {
+  overflow: hidden;
+}
+
+#talk .talk-main {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+#talk .container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+#talk .container .panel {
+  flex: 0 0 100vw; 
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+#talk .container .panel.heading-panel{justify-content: center;}
+#talk .container .heading-panel h2 {
+  font-size: clamp(2rem, 8vw, 6rem);
+  text-align: center;
+  margin: 0;
+  max-width: 800px;
+}
+#talk .container .heading-panel p {max-width: 600px; text-align: center; font-size: 28px;}
+
+#talk .container .content-panel .panel-text {
+  max-width: 500px;
+}
+#talk .container .content-panel span {
+  font-weight: bold;
+  display: block;
+}
+#talk .container .content-panel h3 {
+  font-size: clamp(24px, 7vw, 62px);
+}
+#talk .container .content-panel p {
+  margin: 0 0 1em;
+}
+#talk .container .content-panel a {
+  text-decoration: none;
 }
