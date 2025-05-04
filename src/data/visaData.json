@@ -1,0 +1,66 @@
+[
+    {
+      "id": 1,
+      "image": "/assets/san-francisco.webp",
+      "title": "San Francisco",
+      "price": 199,
+      "currency": "$",
+      "slug": "san-francisco"
+    },
+    {
+      "id": 2,
+      "image": "/assets/sydney.webp",
+      "title": "Sydney",
+      "price": 299,
+      "currency": "$",
+      "slug": "Sydney"
+    },
+    {
+      "id": 3,
+      "image": "/assets/mauritius.webp",
+      "title": "Mauritius",
+      "price": 399,
+      "currency": "$",
+      "slug": "mauritius"
+    },
+    {
+      "id": 4,
+      "image": "/assets/maldives.webp",
+      "title": "Maldives",
+      "price": 599,
+      "currency": "$",
+      "slug": "maldives"
+    },
+    {
+        "id": 5,
+        "image": "/assets/kuala-lumpur.webp",
+        "title": "Kuala Lumpur",
+        "price": 399,
+        "currency": "$",
+        "slug": "kuala-lumpur"
+      },
+      {
+        "id": 6,
+        "image": "/assets/mexico.webp",
+        "title": "Mexico",
+        "price": 399,
+        "currency": "$",
+        "slug": "mexico"
+      },
+      {
+        "id": 7,
+        "image": "/assets/germany.webp",
+        "title": "Germany",
+        "price": 359,
+        "currency": "$",
+        "slug": "germany"
+      },
+      {
+        "id": 8,
+        "image": "/assets/dubai.webp",
+        "title": "Dubai",
+        "price": 799,
+        "currency": "$",
+        "slug": "dubai"
+      }
+  ]
