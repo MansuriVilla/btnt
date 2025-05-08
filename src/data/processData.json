@@ -1,0 +1,32 @@
+[
+    {
+      "bgImage": "",
+      "title": "Our Application Process",
+      "description": "We’ve designed our process to be simple and transparent, ensuring a seamless experience with clear guidance.",
+      "cta": ""
+    },
+    {
+      "bgImage": "/assets/apply-01.jpeg",
+      "title": "Apply",
+      "description": "Answer some initial information, make your payment, and provide some final information.",
+      "cta": "#"
+    },
+    {
+      "bgImage": "/assets/apply-02.jpeg",
+      "title": "Review",
+      "description": "Our team reviews your application to ensure all details are correct.",
+      "cta": "#"
+    },
+    {
+      "bgImage": "/assets/apply-03.jpeg",
+      "title": "Process",
+      "description": "We submit your application to the relevant authorities for processing.",
+      "cta": "#"
+    },
+    {
+      "bgImage": "/assets/apply-04.jpeg",
+      "title": "Receive",
+      "description": "Get your approved visa delivered to you, ready for travel.",
+      "cta": "#"
+    }
+  ]

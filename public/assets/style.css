@@ -68,7 +68,8 @@
   .visa_card--content { justify-content: space-between; align-items: center; }
   .visa_card { flex-direction: column; row-gap: 30px; }
   .visa_card--img { border-radius: var(--site-radius); overflow: hidden; height: 100%; width: 100%; }
-  .visa_card--img img { height: 100%; width: 100%; aspect-ratio: 8 / 9; object-fit: cover; }
+  .visa_card--img img { height: 100%; width: 100%; aspect-ratio: 8 / 9; object-fit: cover;  transition: .26s all linear;}
+  .visa_card:hover .visa_card--img img { scale: 1.2; }
   .visa_price { align-items: flex-start; }
   span.currency-icon { font-size: 12px; }
   span.price { display: flex
@@ -264,7 +265,7 @@ Hero CSS
   margin: 0;
   max-width: 800px;
 }
-#talk .container .heading-panel p {max-width: 600px; text-align: center; font-size: 28px;}
+#talk .container .heading-panel p {max-width: 600px; text-align: center; font-size: 28px; margin:0 auto;}
 
 #talk .container .content-panel .panel-text {
   max-width: 500px;

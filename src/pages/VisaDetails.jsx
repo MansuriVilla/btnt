@@ -1,23 +1,60 @@
-import React from "react";
-import { useParams } from "react-router-dom"; 
-import visaData from "../data/visaData.json"; 
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import visaData from "../data/visaData.json";
+// import { gsap } from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// gsap.registerPlugin(ScrollTrigger);
 
 function VisaDetails() {
-  const { slug } = useParams(); 
-  const visa = visaData.find((item) => item.slug === slug); 
+  const { slug } = useParams();
+  const visa = visaData.find((item) => item.slug === slug);
+
+  // useEffect(() => {
+  //   // Initialize GSAP animation
+  //   const animation = gsap.from(".visa_feature--image", {
+  //     opacity: 0,
+  //     y: 50,
+  //     duration: 1,
+  //     ease: "power2.out",
+  //   });
+
+  //   // Cleanup animation and ScrollTrigger on component unmount
+  //   return () => {
+  //     animation.kill();
+  //     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  //   };
+  // }, []);
 
   if (!visa) {
-    return <div className="site_content-container site_flex" style={{textAlign:'center', width: "100%", justifyContent: "center",minHeight:"50vh", alignItems:"center"} }> <span> Visa not found </span> </div>; 
+    return (
+      <div
+        className="site_content-container site_flex"
+        style={{
+          textAlign: "center",
+          width: "100%",
+          justifyContent: "center",
+          minHeight: "50vh",
+          alignItems: "center",
+        }}
+      >
+        <span>Visa not found</span>
+      </div>
+    );
   }
 
   return (
     <div className="visa_details section_gap site_flex site_flex--column">
       <div className="visa_details--header site_content-container">
-        <div className="visa_feature--image__holder">  
-          <img className="visa_feature--image" src={visa.image} alt={`${visa.title} Image`} />
+        <div className="visa_feature--image__holder">
+          <img
+            className="visa_feature--image"
+            src={visa.image}
+            alt={`${visa.title} Image`}
+          />
         </div>
         <div className="visa_title--holder">
-          <h1 className="visa_feature--title"  >{visa.title}</h1>
+          <h1 className="visa_feature--title">{visa.title}</h1>
         </div>
       </div>
       <div className="visa_details--content site_content-container">
