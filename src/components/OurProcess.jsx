@@ -41,7 +41,9 @@ function OurProcess() {
       gsap.registerPlugin(ScrollTrigger);
 
       const panels = container.querySelectorAll(".panel");
-      const snapPoints = Array.from(panels).map((_, i) => i / (panels.length - 1));
+      const snapPoints = Array.from(panels).map(
+        (_, i) => i / (panels.length - 1)
+      );
 
       gsap.to(container, {
         x: () => `-=${scrollDist}`,
@@ -66,7 +68,10 @@ function OurProcess() {
       window.removeEventListener("resize", onResize);
       ctx.revert();
       // Ensure DOM is restored if pin-spacer persists
-      if (section.parentNode && section.parentNode.classList.contains("pin-spacer")) {
+      if (
+        section.parentNode &&
+        section.parentNode.classList.contains("pin-spacer")
+      ) {
         const originalParent = section.parentNode.parentNode;
         originalParent.insertBefore(section, section.parentNode);
         section.parentNode.remove();
@@ -81,9 +86,13 @@ function OurProcess() {
           {processData.map((panel, i) => (
             <div
               key={i}
-              className={`panel ${panel.bgImage ? "content-panel" : "heading-panel"} site_flex site_flex--column section_gap`}
+              className={`panel ${
+                panel.bgImage ? "content-panel" : "heading-panel"
+              } site_flex site_flex--column section_gap`}
               style={{
-                background: panel.bgImage ? `url("${panel.bgImage}") center/cover no-repeat` : "none",
+                background: panel.bgImage
+                  ? `url("${panel.bgImage}") center/cover no-repeat`
+                  : "none",
               }}
             >
               <div className="panel-text">

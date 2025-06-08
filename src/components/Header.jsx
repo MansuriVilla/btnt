@@ -12,6 +12,7 @@ function Header() {
   const headerRef = useRef(null);
 
   useEffect(() => {
+    // Off-canvas menu logic
     const offcanvasMenu = () => {
       const menu = menuRef.current;
       const toggle = toggleRef.current;
@@ -77,36 +78,29 @@ function Header() {
       };
     };
 
-    const stickyScroll = () => {
-      const header = headerRef.current;
-
-      // Use ScrollTrigger to manage scroll direction and header visibility
-      ScrollTrigger.create({
-        trigger: document.body,
-        start: "top top",
-        end: "bottom bottom",
-        onUpdate: (self) => {
-          const direction = self.direction; // 1 for down, -1 for up
-          const scrollPos = self.scroll(); // Current scroll position
-          const viewportHeight = window.innerHeight;
-          const scrollThreshold = viewportHeight * 0.5;
-
-          if (direction === 1 && scrollPos > scrollThreshold) {
-            // Scrolling down past threshold: hide header
-            header.classList.add("header--hidden");
-          } else {
-            // Scrolling up or above threshold: show header
-            header.classList.remove("header--hidden");
-          }
-        },
-      });
-    };
-
     offcanvasMenu();
-    stickyScroll();
-   
 
-    // Cleanup ScrollTrigger on component unmount
+    // Scroll-based show/hide with ScrollTrigger
+    ScrollTrigger.create({
+      trigger: document.body,
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        const header = headerRef.current;
+        const scrollY = window.scrollY;
+        const direction = self.direction; // 1 for down, -1 for up
+
+        if (direction === 1 && scrollY > 100) {
+          // Scrolling down past 100px
+          header.classList.add("header-hidden");
+        } else if (direction === -1) {
+          // Scrolling up
+          header.classList.remove("header-hidden");
+        }
+      },
+    });
+
+    // Cleanup on unmount
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
@@ -126,16 +120,24 @@ function Header() {
           <div className="site_header-center">
             <ul className="site_header-links site_flex">
               <li className="site_header-link">
-                <Link to="/" className="nav_link">Home</Link>
+                <Link to="/" className="nav_link">
+                  Home
+                </Link>
               </li>
               <li className="site_header-link">
-                <Link to="/visa" className="nav_link">Visa</Link>
+                <Link to="/visa" className="nav_link">
+                  Visa
+                </Link>
               </li>
               <li className="site_header-link">
-                <Link to="/hotel" className="nav_link">Hotel</Link>
+                <Link to="/hotel" className="nav_link">
+                  Hotel
+                </Link>
               </li>
               <li className="site_header-link">
-                <Link to="/cruise" className="nav_link">Cruise</Link>
+                <Link to="/cruise" className="nav_link">
+                  Cruise
+                </Link>
               </li>
             </ul>
           </div>
@@ -170,7 +172,9 @@ function Header() {
         </nav>
       </div>
       <div className="off-canvas-menu" ref={menuRef}>
-        <button className="menu-close" aria-label="Close navigation menu">×</button>
+        <button className="menu-close" aria-label="Close navigation menu">
+          ×
+        </button>
       </div>
     </header>
   );

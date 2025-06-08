@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
@@ -10,36 +10,46 @@ import Footer from "./components/Footer.jsx";
 import "./App.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
+import { HoverTextAnimation } from "./utils/HoverTextAnimation.jsx";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   useEffect(() => {
+    // Initialize a new Lenis instance for smooth scrolling
+    const lenis = new Lenis();
 
-    // Initialize SplittingText
-    SplittingText();
+    // Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
+    lenis.on("scroll", ScrollTrigger.update);
 
-    // Initialize ScrollSmoother
-    const smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 2,
-      effects: true,
+    // Add Lenis's requestAnimationFrame (raf) method to GSAP's ticker
+    // This ensures Lenis's smooth scroll animation updates on each GSAP tick
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000); // Convert time from seconds to milliseconds
     });
 
-    // Cleanup ScrollSmoother on component unmount
+    // Disable lag smoothing in GSAP to prevent any delay in scroll animations
+    gsap.ticker.lagSmoothing(0);
+
     return () => {
-      smoother.kill();
+      // Cleanup function to remove the ticker and Lenis instance
+      gsap.ticker.remove(lenis.raf);
+      lenis.destroy();
     };
   }, []);
-
   return (
     <Router>
-      <div id="smooth-wrapper">
-        <div id="smooth-content" className="site_main">
+      <HoverTextAnimation />
+      <SplittingText />
+      <div>
+        <div className="site_main">
           <Header />
-          <main id="site_main" className="site_flex site_flex--column section_gap">
+          <main
+            id="site_main"
+            className="site_flex site_flex--column section_gap"
+          >
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />

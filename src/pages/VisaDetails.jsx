@@ -1,30 +1,11 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import visaData from "../data/visaData.json";
-// import { gsap } from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// gsap.registerPlugin(ScrollTrigger);
 
 function VisaDetails() {
   const { slug } = useParams();
   const visa = visaData.find((item) => item.slug === slug);
-
-  // useEffect(() => {
-  //   // Initialize GSAP animation
-  //   const animation = gsap.from(".visa_feature--image", {
-  //     opacity: 0,
-  //     y: 50,
-  //     duration: 1,
-  //     ease: "power2.out",
-  //   });
-
-  //   // Cleanup animation and ScrollTrigger on component unmount
-  //   return () => {
-  //     animation.kill();
-  //     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-  //   };
-  // }, []);
 
   if (!visa) {
     return (
@@ -47,11 +28,7 @@ function VisaDetails() {
     <div className="visa_details section_gap site_flex site_flex--column">
       <div className="visa_details--header site_content-container">
         <div className="visa_feature--image__holder">
-          <img
-            className="visa_feature--image"
-            src={visa.image}
-            alt={`${visa.title} Image`}
-          />
+          <img className="visa_feature--image" src={visa.image} alt={`${visa.title} Image`} />
         </div>
         <div className="visa_title--holder">
           <h1 className="visa_feature--title">{visa.title}</h1>

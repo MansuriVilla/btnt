@@ -1,22 +1,61 @@
-import React, { useEffect } from "react";
 import VisaCard from "../components/VisaCard";
 import ValueCard from "../components/ValueCard";
 import OurProcess from "../components/OurProcess";
-
+import React, { useEffect, useRef } from "react";
 
 function Home() {
+  const videoRef = useRef(null);
 
+  useEffect(() => {
+    // Throttle function to limit scroll event frequency
+    const throttle = (func, limit) => {
+      let inThrottle;
+      return (...args) => {
+        if (!inThrottle) {
+          func.apply(this, args);
+          inThrottle = true;
+          setTimeout(() => (inThrottle = false), limit);
+        }
+      };
+    };
 
+    const handleScroll = throttle(() => {
+      if (videoRef.current) {
+        const scrollPosition = window.scrollY;
+        // Parallax effect: move video at 20% of scroll speed using matrix3D
+        const translateY = scrollPosition * 0.2;
+        // matrix3D(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, x, y, z, 1)
+        // Only translateY (y-axis) is modified; others remain identity
+        videoRef.current.style.transform = `matrix3D(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, ${translateY}, 0, 1)`;
+      }
+    }, 24); // ~60fps (16ms)
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <>
       <section className="site_Hero--section">
-        <div className="site_content-container">
+        <div className="site_content-containers">
           <div className="Hero_inner">
-            <div className="Hero_bg--image site_image--radius site_card-image__Ovrly">
-              <picture>
-                <source src="/assets/home-page-hero-img.png" />
-                <img src="/assets/home-page-hero-img.png" alt="" />
-              </picture>
+            <div className="Hero_bg--image site_card-image__Ovrly">
+              <div className="parallax-container">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  className="parallax-video"
+                  preload="auto"
+                  aria-hidden="true" // Decorative video
+                  onClick={(e) => e.target.play()} // Fallback for autoplay
+                >
+                  <source src="/assets/hero-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
             </div>
             <div className="Hero_content">
               <div className="Hero_content--inner">
@@ -35,7 +74,6 @@ function Home() {
                       />
                       <label className="site_input--label">Search</label>
                     </div>
-                    <button className="shortcut_btn">CTRL + K</button>
                   </div>
                 </div>
               </div>
@@ -45,8 +83,8 @@ function Home() {
       </section>
 
       <section className="our-top_values-section">
-        <div className="our-top_values-inner  site_content-container site_flex site_flex--column section section_gap">
-          <div className="our-top_values-top section_top site_flex">
+        <div className="our-top_values-inner site_flex site_content-container  section section_gap">
+          <div className="our-top_values-top site_flex--column section_top site_flex">
             <div className="our-top_values-top__left section_left">
               <h2 className="section_title">Our Top Values</h2>
             </div>
@@ -81,8 +119,7 @@ function Home() {
           </div>
         </div>
       </section>
-      < OurProcess />
-  
+      <OurProcess />
     </>
   );
 }

@@ -53,6 +53,16 @@ function VisaCard() {
                           fill="white"
                         />
                       </svg>
+                      <svg
+                        viewBox="0 0 12 13"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.49442 1.98189H9.01116L0 10.993L1.23791 12.231L10.2491 3.21979V10.7365H12V0.230957H1.49442V1.98189Z"
+                          fill="white"
+                        />
+                      </svg>
                     </span>
                   </div>
                 </div>

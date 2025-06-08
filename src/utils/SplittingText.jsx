@@ -1,79 +1,100 @@
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect } from "react"; // Add React's useEffect
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-// Global configuration for SplittingText
 const SplittingTextConfig = {
-  selector: "h1, h2, p", // Elements to animate
-  type: "words,lines", // Split type
-  linesClass: "line", // Class for split lines
-  autoSplit: true, // Auto-split text
-  mask: "lines", // Mask type
-  duration: 1, // Animation duration
-  yPercent: 100, // Vertical offset
-  opacity: 0, // Starting opacity
-  stagger: 0.2, // Stagger delay
-  ease: "expo.out", // Easing function
-  threshold: 0.2, // IntersectionObserver threshold
-  start: "top 80%", // ScrollTrigger start position
-  once: true, // Run animation only once
+  selector: "h1, h2, p",
+  type: "words,lines",
+  linesClass: "line",
+  autoSplit: true,
+  mask: "lines",
+  duration: 0.5,
+  yPercent: 100,
+  opacity: 1,
+  stagger: 0.2,
+  ease: "linear",
+  threshold: 0.1,
+  start: "top 80%",
+  once: true,
 };
 
 export function SplittingText() {
-  document.fonts.ready.then(() => {
-    const elements = document.querySelectorAll(SplittingTextConfig.selector);
+  useEffect(() => {
+    // Wait for fonts to load to avoid layout shifts
+    document.fonts.ready.then(() => {
+      const elements = document.querySelectorAll(SplittingTextConfig.selector);
 
-    gsap.set(elements, { opacity: 1 });
+      // Set elements to visible by default
+      gsap.set(elements, { opacity: 1 });
 
-    const observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            animateElement(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: SplittingTextConfig.threshold,
-      }
-    );
-
-    function animateElement(element) {
-      const split = SplitText.create(element, {
-        type: SplittingTextConfig.type,
-        linesClass: SplittingTextConfig.linesClass,
-        autoSplit: SplittingTextConfig.autoSplit,
-        mask: SplittingTextConfig.mask,
-      });
-
-      const animation = gsap.from(split.lines, {
-        duration: SplittingTextConfig.duration,
-        yPercent: SplittingTextConfig.yPercent,
-        opacity: SplittingTextConfig.opacity,
-        stagger: SplittingTextConfig.stagger,
-        ease: SplittingTextConfig.ease,
-      });
-
-      ScrollTrigger.create({
-        trigger: element,
-        start: SplittingTextConfig.start,
-        onEnter: () => {
-          animation.play();
+      // Create IntersectionObserver to trigger animations
+      const observer = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateElement(entry.target);
+              observer.unobserve(entry.target); // Stop observing after triggering
+            }
+          });
         },
-        once: SplittingTextConfig.once,
+        {
+          threshold: SplittingTextConfig.threshold,
+        }
+      );
+
+      function animateElement(element) {
+        // Split the text
+        const split = SplitText.create(element, {
+          type: SplittingTextConfig.type,
+          linesClass: SplittingTextConfig.linesClass,
+          autoSplit: SplittingTextConfig.autoSplit,
+          mask: SplittingTextConfig.mask,
+        });
+
+        // Use fromTo to explicitly control start and end states
+        const animation = gsap.fromTo(
+          split.lines,
+          { yPercent: 100, opacity: 0 }, // Start hidden and shifted
+          {
+            duration: SplittingTextConfig.duration,
+            yPercent: 0, // End at normal position
+            opacity: 1, // End fully visible
+            stagger: SplittingTextConfig.stagger,
+            ease: SplittingTextConfig.ease,
+            onComplete: () => {
+              // Ensure elements stay visible after animation
+              gsap.set(split.lines, { opacity: 1, yPercent: 0 });
+            },
+          }
+        );
+
+        // Create ScrollTrigger to play animation
+        ScrollTrigger.create({
+          trigger: element,
+          start: SplittingTextConfig.start,
+          onEnter: () => {
+            animation.play();
+          },
+          once: SplittingTextConfig.once, // Only play once
+        });
+      }
+
+      // Observe all target elements
+      elements.forEach((element) => {
+        observer.observe(element);
       });
-    }
 
-    elements.forEach((element) => {
-      observer.observe(element);
+      // Cleanup function to run when component unmounts
+      return () => {
+        observer.disconnect(); // Stop observing
+        SplitText.revert(); // Revert SplitText DOM changes
+        ScrollTrigger.getAll().forEach((trigger) => trigger.kill()); // Kill all ScrollTriggers
+      };
     });
+  }, []); // Empty dependency array: run once on mount
 
-    // Cleanup observer
-    return () => {
-      observer.disconnect();
-    };
-  });
+  return null; // If used as a component, it doesn't render anything
 }
