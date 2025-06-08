@@ -12,98 +12,46 @@ function Header() {
   const headerRef = useRef(null);
 
   useEffect(() => {
-    // Off-canvas menu logic
-    const offcanvasMenu = () => {
-      const menu = menuRef.current;
-      const toggle = toggleRef.current;
-      const header = headerRef.current;
-      const body = document.body;
-      const headerLinks = header.querySelector(".header_navigations_links");
-      const navLinks = headerLinks.querySelector(".site_header-links");
-      const cta = headerLinks.querySelector(".site_header-right");
-      const closeBtn = menu.querySelector(".menu-close");
+    function stickyScroll() {
+      let lastScrollTop = 50;
+      let header = document.querySelector(".site_header");
+      let isHeaderFixed = false;
 
-      const moveMenu = () => {
-        const isMobile = window.innerWidth <= 820;
+      window.addEventListener("scroll", () => {
+        let currentScroll =
+          window.pageYOffset || document.documentElement.scrollTop;
+        let viewportHeight = window.innerHeight;
+        let scrollThreshold = viewportHeight * 0.5;
 
-        if (isMobile) {
-          if (navLinks && !menu.contains(navLinks)) {
-            menu.appendChild(navLinks);
-          }
-          if (cta && !menu.contains(cta)) {
-            menu.appendChild(cta);
+        if (currentScroll > lastScrollTop) {
+          if (
+            currentScroll > scrollThreshold &&
+            !header.classList.contains("header--hidden")
+          ) {
+            header.classList.add("header--hidden");
           }
         } else {
-          if (navLinks && !headerLinks.contains(navLinks)) {
-            headerLinks.appendChild(navLinks);
-          }
-          if (cta && !headerLinks.contains(cta)) {
-            headerLinks.appendChild(cta);
+          if (header.classList.contains("header--hidden")) {
+            header.classList.remove("header--hidden");
           }
         }
-      };
 
-      window.addEventListener("resize", moveMenu);
-      moveMenu();
-
-      const handleToggle = () => {
-        menu.classList.toggle("active");
-        header.classList.toggle("menu-active");
-        body.classList.toggle("no-scroll");
-      };
-
-      const handleClose = () => {
-        menu.classList.remove("active");
-        header.classList.remove("menu-active");
-        body.classList.remove("no-scroll");
-      };
-
-      toggle.addEventListener("click", handleToggle);
-      closeBtn.addEventListener("click", handleClose);
-
-      document.addEventListener("click", (e) => {
-        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-          handleClose();
+        if (currentScroll > header.offsetHeight && !isHeaderFixed) {
+          header.classList.add("header--fixed");
+          isHeaderFixed = true;
+        } else if (currentScroll <= header.offsetHeight && isHeaderFixed) {
+          header.classList.remove("header--fixed");
+          isHeaderFixed = false;
         }
-      });
 
-      menu.querySelectorAll(".site_header-link a").forEach((link) => {
-        link.addEventListener("click", handleClose);
-      });
-
-      return () => {
-        window.removeEventListener("resize", moveMenu);
-        toggle.removeEventListener("click", handleToggle);
-        closeBtn.removeEventListener("click", handleClose);
-      };
-    };
-
-    offcanvasMenu();
-
-    // Scroll-based show/hide with ScrollTrigger
-    ScrollTrigger.create({
-      trigger: document.body,
-      start: "top top",
-      end: "bottom bottom",
-      onUpdate: (self) => {
-        const header = headerRef.current;
-        const scrollY = window.scrollY;
-        const direction = self.direction; // 1 for down, -1 for up
-
-        if (direction === 1 && scrollY > 100) {
-          // Scrolling down past 100px
-          header.classList.add("header-hidden");
-        } else if (direction === -1) {
-          // Scrolling up
-          header.classList.remove("header-hidden");
+        if (currentScroll < 50) {
+          header.classList.remove("header--hidden");
         }
-      },
-    });
 
-    // Cleanup on unmount
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+      });
+    }
+    stickyScroll();
   }, []);
 
   return (

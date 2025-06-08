@@ -105,12 +105,16 @@ span.price { display: flex; line-height: 1; }
 Header CSS
 ---------------------------
 */
+.header--hidden { transform: translateY(-100%); }
+.header--fixed { background: var(--site-white-clr); background-color: #ffffff50; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.header--fixed .site_header-links .site_header-link .nav_link { color: var(--site-black-clr); }
 .site_header-content { align-items: center; justify-content: space-between; }
 .site_header-content.nav_right .site_header-center { flex: 1; }
 .site_header-content.nav_right .site_header-center .site_header-links { justify-content: flex-end; }
 .header_logo { max-width: 80px; width: 100%; }
-.site_header { position: fixed; width: 100%; top: 0; z-index: 999; transition: 0.3s all linear; background-color: #ffffff30; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.site_header { position: fixed; width: 100%; top: 0; z-index: 999; transition: 0.3s all linear; }
 .site_header-links .site_header-link { padding: 0 15px; }
+.site_header-links .site_header-link .nav_link { color: var(--site-white-clr); transition: 0.3s all linear; }
 .header_inner--content { padding: 20px; }
 .off-canvas-menu { position: fixed; top: 0; left: -250px; width: 250px; height: 100vh; background-color: #333; color: var(--site-white-clr); transition: transform 0.3s ease-in-out; z-index: 1000; overflow-y: auto; }
 .site_header.header-hidden { transform: translateY(-100%); /* Hide header by moving it up */ }

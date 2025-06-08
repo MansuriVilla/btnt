@@ -1,7 +1,7 @@
+import { useEffect, useRef } from "react";
 import VisaCard from "../components/VisaCard";
 import ValueCard from "../components/ValueCard";
 import OurProcess from "../components/OurProcess";
-import React, { useEffect, useRef } from "react";
 
 function Home() {
   const videoRef = useRef(null);
