@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import VisaCard from "../components/VisaCard";
 import ValueCard from "../components/ValueCard";
 import OurProcess from "../components/OurProcess";
+import Faq from "../components/Faq";
 
 function Home() {
   const videoRef = useRef(null);
@@ -120,6 +121,7 @@ function Home() {
         </div>
       </section>
       <OurProcess />
+      <Faq />
     </>
   );
 }

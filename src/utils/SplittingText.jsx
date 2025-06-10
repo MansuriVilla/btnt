@@ -11,14 +11,12 @@ const SplittingTextConfig = {
   linesClass: "line",
   autoSplit: true,
   mask: "lines",
-  duration: 0.5,
   yPercent: 100,
-  opacity: 1,
-  stagger: 0.2,
-  ease: "linear",
-  threshold: 0.1,
-  start: "top 80%",
-  once: true,
+  opacity: 0,
+  stagger: 0.1,
+  ease: "cubic-bezier(0.77, 0, 0.175, 1)",
+  start: "top 100%",
+  duration: 0.999,
 };
 
 export function SplittingText() {

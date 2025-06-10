@@ -16,27 +16,6 @@ function OurProcess() {
       return;
     }
 
-    // Compute and set section height dynamically
-    const updateHeight = () => {
-      if (!container || !section) return 0;
-      const totalWidth = container.scrollWidth;
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const scrollDist = totalWidth - vw;
-      section.style.height = `${scrollDist + vh}px`;
-      return scrollDist;
-    };
-
-    let scrollDist = updateHeight();
-
-    // Handle window resize
-    const onResize = () => {
-      scrollDist = updateHeight();
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener("resize", onResize);
-
-    // Set up GSAP animations within a context
     const ctx = gsap.context(() => {
       gsap.registerPlugin(ScrollTrigger);
 
@@ -45,15 +24,20 @@ function OurProcess() {
         (_, i) => i / (panels.length - 1)
       );
 
+      // Calculate scroll distance for horizontal scrolling
+      const scrollDist = container.scrollWidth - window.innerWidth;
+      console.log("Scroll Distance:", scrollDist); // Debug
+
       gsap.to(container, {
         x: () => `-=${scrollDist}`,
         ease: "none",
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${scrollDist}`,
+          end: () => `+=${scrollDist}`, // End after full horizontal scroll
           scrub: true,
           pin: true,
+          pinSpacing: true, // Ensure pin-spacer reserves space
           snap: {
             snapTo: (raw) => gsap.utils.snap(snapPoints, raw),
             inertia: false,
@@ -61,13 +45,39 @@ function OurProcess() {
           },
         },
       });
+
+      // Handle image loading to refresh ScrollTrigger
+      const images = container.querySelectorAll("img");
+      let loadedImages = 0;
+      const onImageLoad = () => {
+        loadedImages++;
+        if (loadedImages === images.length) {
+          ScrollTrigger.refresh();
+          console.log("Images loaded, ScrollTrigger refreshed");
+        }
+      };
+      images.forEach((img) => {
+        if (img.complete) {
+          onImageLoad();
+        } else {
+          img.addEventListener("load", onImageLoad);
+        }
+      });
+
+      // Refresh ScrollTrigger on resize
+      const onResize = () => {
+        ScrollTrigger.refresh();
+      };
+      window.addEventListener("resize", onResize);
+
+      return () => {
+        images.forEach((img) => img.removeEventListener("load", onImageLoad));
+        window.removeEventListener("resize", onResize);
+      };
     }, sectionRef);
 
-    // Cleanup function to revert GSAP changes and restore DOM
     return () => {
-      window.removeEventListener("resize", onResize);
       ctx.revert();
-      // Ensure DOM is restored if pin-spacer persists
       if (
         section.parentNode &&
         section.parentNode.classList.contains("pin-spacer")
@@ -77,7 +87,7 @@ function OurProcess() {
         section.parentNode.remove();
       }
     };
-  }, []); // Empty dependency array ensures this runs only on mount/unmount
+  }, []);
 
   return (
     <section id="talk" ref={sectionRef}>
