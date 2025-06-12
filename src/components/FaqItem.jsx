@@ -65,6 +65,20 @@ function FaqItem() {
             tabIndex={0}
           >
             <h3>{faqdata.question}</h3>
+            <span>
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 13 13"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.616 0.0116396V12.4196H4.904V0.0116396H7.616ZM12.2 4.95564V7.45164H0.296V4.95564H12.2Z"
+                  fill="black"
+                />
+              </svg>
+            </span>
           </div>
           <div
             className="faq-answer"
