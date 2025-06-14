@@ -171,18 +171,13 @@ Hero CSS
 ---------------------------
 */
 .visa_feature--image { aspect-ratio: 16/9; object-fit: cover; object-position: top center; overflow: hidden; border-radius: var(--site-radius); }
-#talk { overflow: hidden; }
-#talk .talk-main { position: sticky; top: 0; min-height: 100vh; }
-#talk .container { display: flex; flex-wrap: nowrap; }
-#talk .container .panel { flex: 0 0 100vw; min-height: 100vh; width:100vw; box-sizing: border-box; padding: 2rem; display: flex; align-items: center; justify-content: flex-start; }
-#talk .container .panel.heading-panel { justify-content: center; }
-#talk .container .heading-panel h2 { font-size: clamp(2rem, 8vw, 6rem); text-align: center; margin: 0; max-width: 800px; }
-#talk .container .heading-panel p { max-width: 600px; text-align: center; font-size: 28px; margin: 0 auto; }
-#talk .container .content-panel .panel-text { max-width: 500px; }
-#talk .container .content-panel span { font-weight: bold; display: block; }
-#talk .container .content-panel h3 { font-size: clamp(24px, 7vw, 62px); }
-#talk .container .content-panel p { margin: 0 0 1em; }
-#talk .container .content-panel a { text-decoration: none; }
+.process_item-left span { background: var(--site-track-clr); padding: 20px; border-radius: 50px; display: flex; justify-content: center; align-items: center; font-size: clamp(20px,4vw,42px); font-weight: 900; }
+.process_item { gap: calc(var(--section-gap) - 30px); align-items: center; justify-content: flex-start; }
+.process_bottom { justify-content: space-between; }
+.process_item-right p { max-width: 510px; padding-top: 10px; text-transform: capitalize; width: 100%; }
+/* .process_bottom-right { position: relative; height:100% ; width: 100%; }
+*/
+.process_bottom-right img { aspect-ratio: 6/7; height: 100%; width: 100%; object-fit: cover; object-position: center center; border-radius: var(--site-radius); }
 /*-----------------------------
   Contact Page CSS
 ---------------------------*/
