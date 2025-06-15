@@ -27,6 +27,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   useEffect(() => {
+    alert("Hello");
     const lenis = new Lenis();
 
     lenis.on("scroll", ScrollTrigger.update);
